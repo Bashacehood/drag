@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Container</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e0e0e0; /* Light background */
+        }
+        #draggable {
+            width: 200px;
+            height: 200px;
+            background-color: rgb(0, 255, 115); /* Container color */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px; /* Rounded corners */
+            cursor: grab; /* Change cursor to indicate draggable */
+        }
+    </style>
+</head>
+<body>
+    <div id="draggable">Drag Me!</div>
+
+    <script>
+        const draggable = document.getElementById('draggable');
+        let offsetX, offsetY;
+
+        // Mouse down event to initiate dragging
+        draggable.addEventListener('mousedown', (event) => {
+            offsetX = event.clientX - draggable.getBoundingClientRect().left;
+            offsetY = event.clientY - draggable.getBoundingClientRect().top;
+
+            // Mouse move event to update position
+            const mouseMoveHandler = (moveEvent) => {
+                draggable.style.position = 'absolute';
+                draggable.style.left = `${moveEvent.clientX - offsetX}px`;
+                draggable.style.top = `${moveEvent.clientY - offsetY}px`;
+            };
+
+            // Mouse up event to stop dragging
+            const mouseUpHandler = () => {
+                document.removeEventListener('mousemove', mouseMoveHandler);
+                document.removeEventListener('mouseup', mouseUpHandler);
+            };
+
+            document.addEventListener('mousemove', mouseMoveHandler);
+            document.addEventListener('mouseup', mouseUpHandler);
+        });
+    </script>
+</body>
+</html>
